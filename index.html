@@ -27,45 +27,36 @@
   }
 
   /* ---------- Fixed background layers ---------- */
-  .sky{position:fixed;inset:0;z-index:0;transition:opacity 2.6s ease}
-  .sky-dusk{
-    background:
-      radial-gradient(70% 45% at 50% 57%, rgba(255,214,150,.55), transparent 65%),
-      linear-gradient(180deg,
-        #3f6d96 0%, #5c86ac 28%, #8fb0c8 44%,
-        #f2c374 54%, #ee9f4c 60%, #b85f34 63%,
-        #1a3a5c 65.5%, #0f2a46 78%, #08182b 84%,
-        #040a14 92%, #03060b 100%);
-  }
   .sky-night{
-    opacity:0;
+    position:fixed;inset:0;z-index:0;
     background:
       radial-gradient(circle at 50% 120%, rgba(50,70,140,.45), transparent 46%),
       linear-gradient(180deg,#03040c 0%,#080f2a 48%,#0d1838 74%,#12203f 100%);
   }
-  body.night .sky-night{opacity:1}
-  body.night .sky-dusk{opacity:0}
+  /* real photo of the couple at sunset */
+  .photo-scene{
+    position:fixed;inset:0;z-index:1;
+    background:#0a0a16 url('pareja.jpg') center bottom / cover no-repeat;
+    transition:transform 3s cubic-bezier(.5,0,.2,1), filter 3s ease;
+  }
+  body.lift .photo-scene{transform:scale(1.5);transform-origin:50% 9%;filter:brightness(.5) saturate(.92)}
+
+  /* dark veil that fades in over the sky for text contrast */
+  .sky-veil{
+    position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;
+    background:linear-gradient(180deg, rgba(3,5,14,.85) 0%, rgba(3,5,14,.5) 26%, rgba(3,5,14,.12) 46%, transparent 62%);
+    transition:opacity 2.6s ease;
+  }
+  body.reveal .sky-veil{opacity:1}
 
   /* stars */
-  .stars{position:fixed;inset:0;z-index:0;opacity:0;transition:opacity 2.6s ease .4s;pointer-events:none}
-  body.night .stars{opacity:1}
+  .stars{position:fixed;inset:0;z-index:2;opacity:0;transition:opacity 2.6s ease .4s;pointer-events:none}
+  body.night .stars{opacity:.9}
 
-  #fw{position:fixed;inset:0;z-index:1;pointer-events:none}
-
-  /* ---------- Beach silhouette scene ---------- */
-  .scene{
-    position:fixed;inset:0;z-index:2;pointer-events:none;
-    transition:transform 2.4s cubic-bezier(.55,.06,.3,1), opacity 2.2s ease, filter 2.2s ease;
-  }
-  .scene svg{
-    position:absolute;left:50%;bottom:26%;transform:translateX(-50%);
-    width:min(360px,62vw);height:auto;display:block;
-    filter:drop-shadow(0 6px 10px rgba(0,0,0,.5));
-  }
-  body.lift .scene{transform:translateY(72%) scale(1.06);opacity:0;filter:blur(4px)}
+  #fw{position:fixed;inset:0;z-index:3;pointer-events:none}
 
   /* ---------- Content ---------- */
-  main{position:relative;z-index:3}
+  main{position:relative;z-index:4}
   section{padding:6vh 1.25rem}
 
   .hero{
@@ -91,7 +82,7 @@
   body.reveal .cake{opacity:1}
 
   .hint{
-    position:fixed;left:0;right:0;bottom:max(1.4rem,env(safe-area-inset-bottom));z-index:4;
+    position:fixed;left:0;right:0;bottom:max(1.4rem,env(safe-area-inset-bottom));z-index:5;
     text-align:center;color:var(--muted);font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;
     opacity:0;transition:opacity 1s ease;pointer-events:none;
   }
@@ -171,27 +162,11 @@
 </style>
 </head>
 <body>
-  <div class="sky sky-dusk"></div>
-  <div class="sky sky-night"></div>
+  <div class="sky-night"></div>
+  <div class="photo-scene"></div>
+  <div class="sky-veil"></div>
   <canvas class="stars"></canvas>
   <canvas id="fw"></canvas>
-
-  <!-- Beach silhouette scene -->
-  <div class="scene" aria-hidden="true">
-    <svg viewBox="0 0 300 210" preserveAspectRatio="xMidYMax meet">
-      <g fill="#04060b">
-        <!-- ground shadow where they sit -->
-        <ellipse cx="150" cy="203" rx="100" ry="8" opacity=".5"/>
-        <!-- Left person (sitting, bun) -->
-        <path d="M78 202 C72 172 80 150 94 143 Q110 133 126 143 C140 150 146 172 140 202 Z"/>
-        <circle cx="108" cy="139" r="15"/>
-        <circle cx="108" cy="123" r="6.5"/>
-        <!-- Right person (sitting, separado) -->
-        <path d="M170 202 C164 172 173 150 187 143 Q203 133 219 143 C232 150 238 172 232 202 Z"/>
-        <circle cx="201" cy="136" r="16"/>
-      </g>
-    </svg>
-  </div>
 
   <main>
     <section class="hero">
@@ -417,19 +392,19 @@
       startMusic();
       return;
     }
-    // dusk, calm, first rockets behind couple
-    setTimeout(function(){ launch(W*0.42,H*0.5); }, 700);
-    setTimeout(function(){ launch(W*0.6,H*0.42); startMusic(); }, 1500);
-    // camera pans up
-    setTimeout(function(){ document.body.classList.add('lift','night'); }, 2400);
-    // intensify
-    setTimeout(function(){ beginAutoFireworks(900); }, 3300);
-    // reveal title
+    // atardecer, calma: se ve la pareja; primeros fuegos arriba en el cielo
+    setTimeout(function(){ launch(W*0.4,H*0.30); }, 900);
+    setTimeout(function(){ launch(W*0.62,H*0.22); startMusic(); }, 1800);
+    // la cámara sube al cielo (zoom hacia el atardecer)
+    setTimeout(function(){ document.body.classList.add('lift','night'); }, 2900);
+    // intensifican
+    setTimeout(function(){ beginAutoFireworks(900); }, 3700);
+    // aparece el título
     setTimeout(function(){
       document.body.classList.add('reveal');
-      // celebratory burst
+      // ráfaga de celebración
       launch(W*0.3,H*0.25); launch(W*0.7,H*0.28); setTimeout(function(){launch(W*0.5,H*0.18);},250);
-    }, 4200);
+    }, 4700);
   }
 
   /* ---------------- Reveal on scroll ---------------- */
