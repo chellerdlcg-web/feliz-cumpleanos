@@ -30,8 +30,12 @@
   .sky{position:fixed;inset:0;z-index:0;transition:opacity 2.6s ease}
   .sky-dusk{
     background:
-      radial-gradient(circle at 50% 82%, rgba(255,205,120,.95), rgba(255,120,80,.35) 16%, transparent 42%),
-      linear-gradient(180deg,#241a44 0%,#5a3a6e 42%,#b95a63 66%,#e8825a 80%,#ffb066 100%);
+      radial-gradient(70% 45% at 50% 57%, rgba(255,214,150,.55), transparent 65%),
+      linear-gradient(180deg,
+        #3f6d96 0%, #5c86ac 28%, #8fb0c8 44%,
+        #f2c374 54%, #ee9f4c 60%, #b85f34 63%,
+        #1a3a5c 65.5%, #0f2a46 78%, #08182b 84%,
+        #040a14 92%, #03060b 100%);
   }
   .sky-night{
     opacity:0;
@@ -50,13 +54,15 @@
 
   /* ---------- Beach silhouette scene ---------- */
   .scene{
-    position:fixed;left:0;right:0;bottom:0;z-index:2;
-    height:52vh;display:flex;align-items:flex-end;justify-content:center;
-    pointer-events:none;
+    position:fixed;inset:0;z-index:2;pointer-events:none;
     transition:transform 2.4s cubic-bezier(.55,.06,.3,1), opacity 2.2s ease, filter 2.2s ease;
   }
-  .scene svg{width:min(760px,120%);height:auto;display:block}
-  body.lift .scene{transform:translateY(80%) scale(1.08);opacity:0;filter:blur(4px)}
+  .scene svg{
+    position:absolute;left:50%;bottom:26%;transform:translateX(-50%);
+    width:min(360px,62vw);height:auto;display:block;
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,.5));
+  }
+  body.lift .scene{transform:translateY(72%) scale(1.06);opacity:0;filter:blur(4px)}
 
   /* ---------- Content ---------- */
   main{position:relative;z-index:3}
@@ -172,37 +178,17 @@
 
   <!-- Beach silhouette scene -->
   <div class="scene" aria-hidden="true">
-    <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet">
-      <g fill="#04050a">
-        <!-- sand -->
-        <path d="M0 190 Q200 176 400 190 L400 200 L0 200 Z"/>
-        <!-- palm tree -->
-        <g transform="translate(46,0)">
-          <path d="M0 118 C4 150 6 172 4 190 L12 190 C11 168 12 146 10 118 Z"/>
-          <path d="M6 116 C-10 100 -30 98 -44 104 C-24 104 -8 110 6 122 Z"/>
-          <path d="M6 116 C-6 96 -6 76 2 64 C8 82 10 100 10 118 Z"/>
-          <path d="M6 116 C22 100 42 98 56 104 C36 104 20 110 8 122 Z"/>
-          <path d="M6 116 C18 96 22 78 34 70 C26 88 16 102 10 118 Z"/>
-          <circle cx="6" cy="116" r="4"/>
-        </g>
-        <!-- Person left (holding hands) -->
-        <g transform="translate(0,0)">
-          <circle cx="168" cy="86" r="13"/>
-          <rect x="158" y="98" width="20" height="52" rx="9"/>
-          <rect x="161" y="142" width="7" height="48" rx="3"/>
-          <rect x="169" y="142" width="7" height="48" rx="3"/>
-          <rect x="151" y="104" width="7" height="40" rx="3.5" transform="rotate(7 154 104)"/>
-          <rect x="176" y="118" width="30" height="6" rx="3" transform="rotate(-7 176 121)"/>
-        </g>
-        <!-- Person right (dress) -->
-        <g transform="translate(0,0)">
-          <circle cx="240" cy="90" r="12"/>
-          <path d="M240 101 L251 112 L257 170 L223 170 L229 112 Z"/>
-          <rect x="228" y="160" width="6" height="30" rx="3"/>
-          <rect x="246" y="160" width="6" height="30" rx="3"/>
-          <rect x="205" y="118" width="30" height="6" rx="3" transform="rotate(7 235 121)"/>
-          <rect x="250" y="106" width="7" height="40" rx="3.5" transform="rotate(-7 253 106)"/>
-        </g>
+    <svg viewBox="0 0 300 210" preserveAspectRatio="xMidYMax meet">
+      <g fill="#04060b">
+        <!-- ground shadow where they sit -->
+        <ellipse cx="150" cy="202" rx="86" ry="9" opacity=".55"/>
+        <!-- Left person (sitting, bun) -->
+        <path d="M92 202 C86 172 92 150 106 143 Q122 133 138 143 C152 150 156 172 150 202 Z"/>
+        <circle cx="122" cy="138" r="15"/>
+        <circle cx="122" cy="122" r="6.5"/>
+        <!-- Right person (sitting, leaning close) -->
+        <path d="M136 202 C132 170 140 148 154 141 Q170 131 186 141 C199 148 205 170 200 202 Z"/>
+        <circle cx="170" cy="133" r="16"/>
       </g>
     </svg>
   </div>
